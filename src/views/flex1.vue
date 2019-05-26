@@ -1,7 +1,25 @@
 <template>
   <div class="echarts">
-    <div>flex1</div>
-    <div>flex1</div>
+    <div>
+      <ul>
+        <li v-for="(item, index) in flex1Data" :key="index">
+          <span>{{ item.title }}</span>
+          <img :src="item.icon" />
+          <span>{{ item.author }}</span>
+          <span>{{ item.date }}</span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li v-for="(item, index) in flex2Data" :key="index">
+          <span>{{ item.title }}</span>
+          <img :src="item.imgSrc" />
+          <span>{{ item.author }}</span>
+          <span>{{ item.date }}</span>
+        </li>
+      </ul>
+    </div>
     <div>flex1</div>
     <div>flex1</div>
     <div>flex1</div>
@@ -15,7 +33,18 @@
 export default {
   name: "flex1",
   data() {
-    return {};
+    return {
+      flex1Data: [],
+      flex2Data: []
+    };
+  },
+  created() {
+    this.$http.get("/flex1Data").then(res => {
+      this.flex1Data = res.data.posts;
+    });
+    this.$http.get("/flex2Data").then(res => {
+      this.flex2Data = res.data.data;
+    });
   }
 };
 </script>
@@ -32,8 +61,9 @@ export default {
     width: 24%;
     height: 200px;
     border: 1px solid red;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-y: scroll;
   }
 }
 </style>
